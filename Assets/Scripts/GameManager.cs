@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance; //Gives us access to the GameManager from any script
 
-    // Awake is called at the start of a scene
+    // Awake is called at the start of a scene.
     void Awake()
     {
         //Insure only one instance is present

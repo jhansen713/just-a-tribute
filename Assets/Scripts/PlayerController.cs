@@ -7,6 +7,9 @@ using UnityEngine;
 /// We would create an empty game object for each player and assign this script to it.
 /// </summary>
 public class PlayerController : MonoBehaviour {
+    public GameObject playerToken; //Reference to the 3D object representing our player
+    public float moveSpeed = 800.0f;
+
     // Start is called before the first frame update
     void Start() {
         StartCoroutine(InputListener());
@@ -22,22 +25,23 @@ public class PlayerController : MonoBehaviour {
     /// </summary>
     /// <returns></returns>
     private IEnumerator InputListener() {
-        Vector3 vector;
 
         //Run as long as this controller is active
         while (enabled) {
-            //Tile Cursor is only active when Action Canvas the is NOT displayed
-            if (Input.GetKeyDown(KeyCode.UpArrow)) {
-                //Move(new Vector3() in Up Direction)
-            } else if (Input.GetKeyDown(KeyCode.DownArrow)) {
-                //Move(new Vector3() in Down Direction)
-            } else if (Input.GetKeyDown(KeyCode.RightArrow)) {
+            //Move Variables
+            float moveHorizontal = Input.GetAxis("Horizontal");
+            float moveVertical = Input.GetAxis("Vertical");
 
-            } else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+            Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
 
-            } else if (Input.GetKeyDown(KeyCode.Space)) {
+            playerToken.GetComponent<Rigidbody>().AddForce(movement * moveSpeed * Time.deltaTime);
+
+            //Shoot action
+            if (Input.GetKeyDown(KeyCode.Space)) {
                 yield return Shoot();
             }
+
+            yield return null;
         }
     }
 
@@ -45,4 +49,5 @@ public class PlayerController : MonoBehaviour {
         Debug.Log("Pew Pew!");
         yield return null;
 	}
+
 }
